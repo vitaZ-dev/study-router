@@ -1,4 +1,5 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 /**
  * react component에서 이미지 소스 불러오는 법
@@ -14,6 +15,23 @@ import React from "react";
  */
 
 const Members = ({ members }) => {
+  // URI 경로를 이동할 수 있는 Hook
+  const navigate = useNavigate();
+  // 사용법 : navigate(경로, 옵션)
+  const goHome = () => {
+    // navigate 를 이용해서 정보를 전달하고 싶다.
+    // state 옵션에 객체를 정의해서 전달해 준다.
+    // navigate("/", { state: { from: "/members", age: 25 } });
+    navigate("/");
+  };
+
+  // useLocation의 state 활용하기
+  // const showInfo = (_who, _img) => {
+  //   // const showInfo = (_item) => {
+  //   navigate("/about", { state: { singer: _who, photo: _img } });
+  //   // navigate("/about", { state: _item });
+  // };
+
   const path = process.env.PUBLIC_URL;
   const imgStyle = {
     width: 90,
@@ -21,12 +39,15 @@ const Members = ({ members }) => {
   };
   const list = members.map((item, index) => {
     return (
+      // JSX 에선 반복문 사용 시 key=uid(unique id) 가 있어야 한다
       <div key={index} className="col-6 col-md-4 col-lg-3">
         <img
           src={`${path}/${item.photo}`}
           alt={item.name}
           className="img-thumbnail"
           style={imgStyle}
+          // onClick={() => showInfo(item)}
+          // onClick={() => showInfo(item.name, item.photo)}
         />
         <br />
         <h6>{item.name}</h6>
@@ -42,6 +63,10 @@ const Members = ({ members }) => {
       <div className="container">
         <div className="row">{list}</div>
       </div>
+
+      <button className="btn btn-secondary" onClick={goHome}>
+        Home
+      </button>
     </div>
   );
 };
